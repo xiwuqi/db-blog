@@ -22,14 +22,19 @@
             <Policies>
                 <SizeBasedTriggeringPolicy size="${blogLog_size}"/>
             </Policies>
-
         </RollingRandomAccessFile>
+
+        <!-- 控制台输出日志 -->
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5p][%t][%c{1}] %m%n"/>
+        </Console>
     </Appenders>
 
     <Loggers>
         <!-- 系统相关日志 -->
         <AsyncRoot level="info" includeLocation="true">
             <AppenderRef ref="BLOG_FILE" level="info"/>
+            <AppenderRef ref="CONSOLE" level="info"/> <!-- 添加控制台输出 -->
         </AsyncRoot>
     </Loggers>
 </Configuration>
