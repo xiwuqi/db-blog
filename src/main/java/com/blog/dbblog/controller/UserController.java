@@ -6,6 +6,8 @@ import com.blog.dbblog.service.UserService;
 import com.blog.dbblog.util.JsonResult;
 import com.blog.dbblog.util.MD5Util;
 import com.blog.dbblog.util.PhoneUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @create 2023-08-16
  */
 
+@Api(tags = "用户管理") // 每个Controller上加一个@Api注解
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,6 +31,7 @@ public class UserController {
      * 用户列表
      * @return
      */
+    @ApiOperation(value = "用户列表")
     @PostMapping("/list")
     public JsonResult<Object> list() {
         List<User> userList = userService.findAll();
@@ -38,6 +42,7 @@ public class UserController {
      * 添加用户
      * @return
      */
+    @ApiOperation(value = "添加用户")
     @PostMapping("/create")
     public JsonResult<Object> userCreate(@RequestBody @Valid User user) {
         if (StrUtil.isEmpty(user.getPassWord())) {
@@ -58,6 +63,7 @@ public class UserController {
      * 修改用户
      * @return
      */
+    @ApiOperation(value = "修改用户")
     @PostMapping("/update")
     public JsonResult<Object> userUpdate(@RequestBody @Valid User user) {
         if (StrUtil.isEmpty(user.getPassWord())) {
@@ -77,6 +83,7 @@ public class UserController {
      * 删除
      * @return
      */
+    @ApiOperation(value = "删除用户")
     @PostMapping("/delete/{id}")
     public JsonResult<Object> userDelete(@PathVariable(value = "id") int id) {
         userService.deleteUser(id);
