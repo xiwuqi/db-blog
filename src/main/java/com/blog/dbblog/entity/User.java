@@ -40,7 +40,7 @@ public class User {
     /**
      * 手机号
      */
-    private Integer phone;
+    private String phone;
 
     /**
      * 昵称
