@@ -20,15 +20,23 @@ CREATE TABLE `person_article` (
   ROW_FORMAT = Dynamic
   COMMENT '文章管理表';
 
-DROP TABLE IF EXISTS `person_article_tag`;
-CREATE TABLE `person_article_tag` (
-  `tag_id`		INT(11)         NOT NULL            COMMENT '标签id',
-  `article_id`	INT(11)         NOT NULL            COMMENT '文章id'
+DROP TABLE IF EXISTS `person_article_tag_category`;
+CREATE TABLE `person_article_tag_category` (
+   `id`          INT             NOT NULL PRIMARY KEY AUTO_INCREMENT     COMMENT '主键',
+   `tag_id`      INT             NOT NULL                                COMMENT '标签id',
+   `article_id`  INT             NOT NULL                                COMMENT '文章id',
+   `category_id` INT             NOT NULL                                COMMENT '分类id',
+   CONSTRAINT fk_article_tag_category_tag_id
+       FOREIGN KEY (tag_id) REFERENCES person_tag(id),
+   CONSTRAINT fk_article_tag_category_article_id
+       FOREIGN KEY (article_id) REFERENCES person_article(id),
+   CONSTRAINT fk_article_tag_category_category_id
+       FOREIGN KEY (category_id) REFERENCES person_category(category_id)
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_bin
   ROW_FORMAT = Dynamic
-  COMMENT '文章和标签关联表';
+  COMMENT '文章、标签和分类关联表';
 
 
 DROP TABLE IF EXISTS `person_user`;
