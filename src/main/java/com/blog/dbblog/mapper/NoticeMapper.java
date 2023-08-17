@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author wuxi
- * @create 2023-08-16
+ * @create 2023-08-17
  */
 @Repository
 public interface NoticeMapper {
