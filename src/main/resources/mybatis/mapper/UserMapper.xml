@@ -32,7 +32,8 @@
             email = #{email},
             last_login_time = #{lastLoginTime},
             phone = #{phone},
-            nickname = #{nickname}
+            nickname = #{nickname},
+            update_time = NOW()  <!-- 使用MySQL的NOW()函数获取当前时间 -->
         </set>
         WHERE id = #{id}
     </update>
