@@ -126,6 +126,14 @@
             <version>1.4.0</version>
         </dependency>
 
+        <!-- 邮箱服务MailUtil -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
     </dependencies>
 
 
