@@ -4,12 +4,11 @@ CREATE TABLE `person_article` (
   `author`         VARCHAR(128)    NOT NULL                            COMMENT '作者',
   `title`          VARCHAR(255)    NOT NULL                            COMMENT '文章标题',
   `user_id`        INT(11)         NOT NULL                            COMMENT '用户id',
-  `category_id`    INT(11)             NULL                            COMMENT '分类id',
   `content`        LONGTEXT        NOT NULL                            COMMENT '文章内容',
   `views`          BIGINT          NOT NULL DEFAULT 0                  COMMENT '文章浏览量',
   `total_words`    BIGINT          NOT NULL DEFAULT 0                  COMMENT '文章总字数',
-  `commentable_id` INT    		     NULL                            COMMENT '评论id',
-  `art_status`     TINYINT    	 NOT NULL DEFAULT 1                  COMMENT '发布，默认1, 1-发布, 2-仅我可见  3-草稿',
+  `commentable_id` INT    		       NULL                            COMMENT '评论id',
+  `art_status`     TINYINT    	   NOT NULL DEFAULT 1                  COMMENT '发布，默认1, 1-发布, 2-仅我可见  3-草稿',
   `description`    VARCHAR(255)        NULL                            COMMENT '描述',
   `image_url`      VARCHAR(255)        NULL                            COMMENT '文章logo',
   `create_time`    DATETIME            NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
@@ -18,25 +17,37 @@ CREATE TABLE `person_article` (
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_bin
   ROW_FORMAT = Dynamic
-  COMMENT '文章管理表';
+    COMMENT '文章管理表';
 
-DROP TABLE IF EXISTS `person_article_tag_category`;
-CREATE TABLE `person_article_tag_category` (
-   `id`          INT             NOT NULL PRIMARY KEY AUTO_INCREMENT     COMMENT '主键',
-   `tag_id`      INT             NOT NULL                                COMMENT '标签id',
-   `article_id`  INT             NOT NULL                                COMMENT '文章id',
-   `category_id` INT             NOT NULL                                COMMENT '分类id',
-   CONSTRAINT fk_article_tag_category_tag_id
-       FOREIGN KEY (tag_id) REFERENCES person_tag(id),
-   CONSTRAINT fk_article_tag_category_article_id
-       FOREIGN KEY (article_id) REFERENCES person_article(id),
-   CONSTRAINT fk_article_tag_category_category_id
-       FOREIGN KEY (category_id) REFERENCES person_category(category_id)
+DROP TABLE IF EXISTS `person_article_tag`;
+CREATE TABLE `person_article_tag` (
+  `id`          INT             NOT NULL PRIMARY KEY AUTO_INCREMENT     COMMENT '主键',
+  `tag_id`		INT             NOT NULL            COMMENT '标签id',
+  `article_id`	INT             NOT NULL            COMMENT '文章id',
+  CONSTRAINT fk_article_tag_tag_id
+      FOREIGN KEY (tag_id) REFERENCES person_tag(id),
+  CONSTRAINT fk_article_tag_article_id
+      FOREIGN KEY (article_id) REFERENCES person_article(id)
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_bin
   ROW_FORMAT = Dynamic
-  COMMENT '文章、标签和分类关联表';
+  COMMENT '文章和标签关联表';
+
+DROP TABLE IF EXISTS `person_article_category`;
+CREATE TABLE `person_article_category` (
+   `id`          INT             NOT NULL PRIMARY KEY AUTO_INCREMENT     COMMENT '主键',
+   `category_id` INT             NOT NULL            COMMENT '分类id',
+   `article_id`	 INT             NOT NULL            COMMENT '文章id',
+   CONSTRAINT fk_article_category_category_id
+       FOREIGN KEY (category_id) REFERENCES person_category(category_id),
+   CONSTRAINT fk_article_category_article_id
+       FOREIGN KEY (article_id) REFERENCES person_article(id)
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_bin
+  ROW_FORMAT = Dynamic
+  COMMENT '文章和分类关联表';
 
 
 DROP TABLE IF EXISTS `person_user`;
