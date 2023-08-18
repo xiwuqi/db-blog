@@ -1,15 +1,21 @@
 package com.blog.dbblog.service.Impl;
 
 import com.blog.dbblog.bo.ArticleBO;
+import com.blog.dbblog.config.mail.MailInfo;
+import com.blog.dbblog.config.mail.SendMailConfig;
 import com.blog.dbblog.entity.Article;
+import com.blog.dbblog.entity.User;
 import com.blog.dbblog.mapper.ArticleMapper;
 import com.blog.dbblog.service.ArticleService;
+import com.blog.dbblog.service.UserService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +34,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     ArticleMapper articleMapper;
+    @Resource
+    UserService userService;
 
     /**
      * key:文章id
@@ -63,6 +71,18 @@ public class ArticleServiceImpl implements ArticleService {
     public void saveArticle(Article article) {
         articleMapper.createArticle(article);
         articleMap.put(article.getId(), article);
+
+        User user = userService.findByUserId(article.getUserId());
+        //添加文章发送邮箱提醒
+        String content = "【{0}】您好：\n" +
+                "您已成功发布了标题为: {1} 的文章 \n" +
+                "请注意查收！\n";
+        MailInfo build = MailInfo.builder()
+                .receiveMail(user.getEmail())
+                .content(MessageFormat.format(content, user.getUserName(), article.getTitle()))
+                .title("文章发布")
+                .build();
+        SendMailConfig.sendMail(build);
     }
 
     @Override
