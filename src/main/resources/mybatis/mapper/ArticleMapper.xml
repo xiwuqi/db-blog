@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.dbblog.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="com.blog.dbblog.entity.Article">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="views" jdbcType="BIGINT" property="views"/>
+        <result column="total_words" jdbcType="BIGINT" property="totalWords"/>
+        <result column="commentable_id" jdbcType="INTEGER" property="commentableId"/>
+        <result column="art_status" jdbcType="INTEGER" property="artStatus"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <collection property="categoryList" ofType="com.blog.dbblog.entity.Category">
+            <id column="cid" property="categoryId"/>
+            <result column="category_name" property="categoryName"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        </collection>
+        <collection property="tagList" ofType="com.blog.dbblog.entity.Tag">
+            <id column="sid" property="id"/>
+            <result column="tag_name" property="tagName"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, author, title, user_id, content, views, total_words, commentable_id,
+        art_status, description, image_url, create_time, update_time
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from person_article
+    </select>
+
+    <select id="getArticlePage" resultMap="BaseResultMap" parameterType="com.blog.dbblog.bo.ArticleBO">
+        SELECT
+        a.*,
+        att.article_id,
+        att.tag_id,
+        t.id AS sid,
+        t.tag_name,
+        acc.article_id,
+        acc.category_id,
+        c.category_id AS cid,
+        c.category_name
+        FROM person_article a
+        left join person_article_tag att on a.id = att.article_id
+        left join person_article_category acc on a.id = acc.article_id
+        left join person_tag t on t.id = att.tag_id
+        left join person_category c on c.category_id = acc.category_id
+        <where>
+            <if test="articleBO.title != null">
+                and a.title LIKE CONCAT('%', #{articleBO.title}, '%')
+            </if>
+            <if test="articleBO.artStatus != null">
+                and a.art_status = #{articleBO.artStatus}
+            </if>
+        </where>
+    </select>
+
+    <insert id="createArticle" parameterType="com.blog.dbblog.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO person_article
+        (author, title, user_id, content, views, total_words,
+         commentable_id, art_status, description, image_url)
+        VALUES(#{author}, #{title}, #{userId}, #{content}, #{views}, #{totalWords}, #{commentableId},
+               #{artStatus}, #{description}, #{imageUrl})
+    </insert>
+
+    <update id="updateArticle" parameterType="com.blog.dbblog.entity.Article">
+        update person_article
+        <set>
+            author = #{author},
+            title = #{title},
+            user_id = #{userId},
+            content = #{content},
+            views = #{views},
+            total_words = #{totalWords},
+            commentable_id = #{commentableId},
+            art_status = #{artStatus},
+            description = #{description},
+            image_url = #{imageUrl},
+            update_time = NOW()  <!-- 使用MySQL的NOW()函数获取当前时间 -->
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteArticle" parameterType="java.lang.Integer">
+        delete from person_article where id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <select id="getById" resultType="com.blog.dbblog.entity.Article">
+        select * from person_article
+        where id = #{id}
+    </select>
+
+</mapper>
