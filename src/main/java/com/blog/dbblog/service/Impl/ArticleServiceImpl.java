@@ -167,12 +167,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(Integer articleId) {
-        articleMapper.deleteArticle(articleId);
-        articleMap.remove(articleId);
         //关联标签删除掉
         articleTagService.deleteTag(articleId);
         //关联类别删除掉
         articleCategoryService.deleteCategory(articleId);
+        articleMapper.deleteArticle(articleId);
+        articleMap.remove(articleId);
     }
 
     @Override
