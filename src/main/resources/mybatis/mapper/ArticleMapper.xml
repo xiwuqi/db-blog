@@ -29,23 +29,8 @@
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
             <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         </collection>
-<!--        <collection property="tagList" ofType="com.blog.dbblog.entity.Tag" resultMap="TagResultMap"/>-->
-<!--        <collection property="categoryList" ofType="com.blog.dbblog.entity.Category" resultMap="CategoryResultMap"/>-->
     </resultMap>
 
-    <resultMap id="TagResultMap" type="com.blog.dbblog.entity.Tag">
-        <id column="sid" property="id"/>
-        <result column="tag_name" property="tagName"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-    </resultMap>
-
-    <resultMap id="CategoryResultMap" type="com.blog.dbblog.entity.Category">
-        <id column="cid" property="categoryId"/>
-        <result column="category_name" property="categoryName"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-    </resultMap>
 
     <sql id="Base_Column_List">
         id, author, title, user_id, content, views, total_words, commentable_id,
