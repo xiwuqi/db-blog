@@ -148,12 +148,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void updateArticle(Article article) {
+        //更新文章
         articleMapper.updateArticle(article);
         articleMap.put(article.getId(), article);
+
         //更新文章先把原来的标签和类别删除掉
         articleTagService.deleteTag(article.getId());
         articleCategoryService.deleteCategory(article.getId());
-        //添加文章标签->文章标签关联表
+        //再添加文章标签->文章标签关联表
         if (article.getTagIdList() != null) {
             List<ArticleTag> articleTagList = article.getTagIdList().stream().map(tagId -> ArticleTag.builder()
                     .tagId(tagId)
@@ -161,7 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .build()).collect(Collectors.toList());
             articleTagService.insertBatch(articleTagList);
         }
-        //添加文章类别->文章类别关联表
+        //再添加文章类别->文章类别关联表
         if (article.getCategoryIdList() != null) {
             List<ArticleCategory> articleTagList = article.getCategoryIdList().stream().map(categoryId -> ArticleCategory.builder()
                     .categoryId(categoryId)
@@ -177,6 +179,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleTagService.deleteTag(articleId);
         //关联类别删除掉
         articleCategoryService.deleteCategory(articleId);
+        //执行完上面两步后再去执行删除文章操作（受外键约束影响）
         articleMapper.deleteArticle(articleId);
         articleMap.remove(articleId);
     }
