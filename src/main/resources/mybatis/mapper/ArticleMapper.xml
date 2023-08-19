@@ -29,6 +29,22 @@
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
             <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         </collection>
+<!--        <collection property="tagList" ofType="com.blog.dbblog.entity.Tag" resultMap="TagResultMap"/>-->
+<!--        <collection property="categoryList" ofType="com.blog.dbblog.entity.Category" resultMap="CategoryResultMap"/>-->
+    </resultMap>
+
+    <resultMap id="TagResultMap" type="com.blog.dbblog.entity.Tag">
+        <id column="sid" property="id"/>
+        <result column="tag_name" property="tagName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="CategoryResultMap" type="com.blog.dbblog.entity.Category">
+        <id column="cid" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -36,21 +52,31 @@
         art_status, description, image_url, create_time, update_time
     </sql>
 
+    <sql id="Base2_Column_List">
+        a.id, a.author, a.title, a.user_id, a.content, a.views, a.total_words, a.commentable_id,
+        a.art_status, a.description, a.image_url, a.create_time, a.update_time
+    </sql>
+
     <select id="findAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from person_article
+        SELECT
+        <include refid="Base2_Column_List"/>,
+        t.id AS sid,
+        t.tag_name,
+        c.category_id AS cid,
+        c.category_name
+        FROM person_article a
+        LEFT JOIN person_article_tag att ON a.id = att.article_id
+        LEFT JOIN person_article_category acc ON a.id = acc.article_id
+        LEFT JOIN person_tag t ON t.id = att.tag_id
+        LEFT JOIN person_category c ON c.category_id = acc.category_id
     </select>
+
 
     <select id="getArticlePage" resultMap="BaseResultMap" parameterType="com.blog.dbblog.bo.ArticleBO">
         SELECT
         a.*,
-        att.article_id,
-        att.tag_id,
         t.id AS sid,
         t.tag_name,
-        acc.article_id,
-        acc.category_id,
         c.category_id AS cid,
         c.category_name
         FROM person_article a
@@ -68,6 +94,8 @@
         </where>
     </select>
 
+
+    <!-- 创建字段 -->
     <insert id="createArticle" parameterType="com.blog.dbblog.entity.Article" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO person_article
         (author, title, user_id, content, views, total_words,
@@ -75,6 +103,23 @@
         VALUES(#{author}, #{title}, #{userId}, #{content}, #{views}, #{totalWords}, #{commentableId},
                #{artStatus}, #{description}, #{imageUrl})
     </insert>
+
+    <insert id="createArticleTagRelations" parameterType="com.blog.dbblog.entity.Article">
+        INSERT INTO person_article_tag (article_id, tag_id)
+        VALUES
+        <foreach collection="tagIdList" item="tagId" separator=",">
+            (#{id}, #{tagId})
+        </foreach>
+    </insert>
+
+    <insert id="createArticleCategoryRelations" parameterType="com.blog.dbblog.entity.Article">
+        INSERT INTO person_article_category (article_id, category_id)
+        VALUES
+        <foreach collection="categoryIdList" item="categoryId" separator=",">
+            (#{id}, #{categoryId})
+        </foreach>
+    </insert>
+
 
     <update id="updateArticle" parameterType="com.blog.dbblog.entity.Article">
         update person_article
