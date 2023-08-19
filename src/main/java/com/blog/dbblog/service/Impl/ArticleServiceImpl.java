@@ -59,6 +59,9 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articleList = articleMapper.findAll();
         try {
             for(Article article : articleList) {
+                /*
+                 * System.out.println("\narticle 初始的值：" + article.toString() + "\n");
+                */
                 // 获取关联的 ID 列的值
                 List<Integer> tagIdList = article.getTagList().stream().map(Tag::getId).collect(Collectors.toList());
                 List<Integer> categoryIdList = article.getCategoryList().stream().map(Category::getCategoryId).collect(Collectors.toList());
@@ -66,7 +69,9 @@ public class ArticleServiceImpl implements ArticleService {
                 // 设置关联的 ID 列的值到文章对象
                 article.setTagIdList(tagIdList);
                 article.setCategoryIdList(categoryIdList);
-                System.out.println("\narticle的值：" + article.toString() + "\n");
+                /*
+                 * System.out.println("\narticle 增加关联后的值：" + article.toString() + "\n");
+                */
                 articleMap.put(article.getId(), article);
             }
             log.info("文章缓存数据加载完成");
@@ -102,10 +107,10 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.createArticle(article);
         articleMap.put(article.getId(), article);
 
-//        System.out.println("\n这是：article刚创建时的结构"
-//                + article + "\n");
-//        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
-//                + articleMap.get(article.getId()).getTagList() + "\n");
+        System.out.println("\n这是 article 刚创建时的结构："
+                + article + "\n");
+        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
+                + articleMap.get(article.getId()).getTagList() + "\n");
 
         // 创建文章标签关联
         if (article.getTagIdList() != null && !article.getTagIdList().isEmpty()) {
