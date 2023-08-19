@@ -30,7 +30,7 @@ public class SendMailConfig {
             //密码，刚开通的授权码
             account.setPass("xxxxxxxxxxx");
             //使用SSL安全连接
-            account.setSslEnable(false);
+            account.setSslEnable(true);
             MailUtil.send(account, mailInfo.getReceiveMail(),
                     mailInfo.getTitle(), mailInfo.getContent(), false);
             log.info("邮件发送成功！");
