@@ -83,23 +83,29 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articleList = articleMapper.getArticlePage(articleBO);
         if (articleList != null) {
             for (Article article : articleList) {
-//                article.setTagList(articleMap.get(article.getId()).getTagList());
+                // TagIdList和CategoryIdList在数据库中未设立字段，所以要从缓存中读取
                 article.setTagIdList(articleMap.get(article.getId()).getTagIdList());
-//                article.setCategoryList(articleMap.get(article.getId()).getCategoryList());
                 article.setCategoryIdList(articleMap.get(article.getId()).getCategoryIdList());
             }
         }
         return articleList;
     }
 
+    /* 注：此函数用于创建新的文章，所有关联数据库的数据都被正常写入，它被调用将article信息写入articleMap的时候
+    *  其不包含createTime、updateTime、tagList、categoryList的数据，因为前端没有传，而对应数据库字段的数据
+    *  在xml中就被完成赋值了 */
     @Override
     public void saveArticle(Article article) {
         System.out.println("\nTagIdList的值："+ article.getTagIdList().toString());
         System.out.println("CategoryIdList的值:"+article.getCategoryIdList().toString()+"\n");
         // 创建文章记录
         articleMapper.createArticle(article);
-
         articleMap.put(article.getId(), article);
+
+//        System.out.println("\n这是：article刚创建时的结构"
+//                + article + "\n");
+//        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
+//                + articleMap.get(article.getId()).getTagList() + "\n");
 
         // 创建文章标签关联
         if (article.getTagIdList() != null && !article.getTagIdList().isEmpty()) {
