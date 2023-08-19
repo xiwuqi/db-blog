@@ -27,7 +27,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
         try {
             articleCategoryMapper.insertBatch(articleCategoryList);
         } catch (Exception e) {
-            log.error("批量添加文章标签失败！" + e.getMessage());
+            log.error("批量添加文章类别失败！" + e.getMessage());
         }
     }
 
