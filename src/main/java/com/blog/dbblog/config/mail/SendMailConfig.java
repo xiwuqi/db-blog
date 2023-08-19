@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
  * 邮件发送
  *
  * @author wuxi
- * @create 2023-08-16
+ * @create 2023-08-18
  **/
 @Log4j2
 public class SendMailConfig {

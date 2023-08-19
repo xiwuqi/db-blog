@@ -8,7 +8,7 @@ import lombok.Data;
  * 邮件接收配置信息
  *
  * @author wuxi
- * @create 2023-08-16
+ * @create 2023-08-18
  **/
 @Builder
 @Data
