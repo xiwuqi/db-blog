@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ArticleCategoryService {
     /**
-     * 批量插入文章标签数据
+     * 批量插入文章类别数据
      *
      * @param articleCategoryList
      */
