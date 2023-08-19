@@ -107,10 +107,10 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.createArticle(article);
         articleMap.put(article.getId(), article);
 
-        System.out.println("\n这是 article 刚创建时的结构："
-                + article + "\n");
-        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
-                + articleMap.get(article.getId()).getTagList() + "\n");
+//        System.out.println("\n这是 article 刚创建时的结构："
+//                + article + "\n");
+//        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
+//                + articleMap.get(article.getId()).getTagList() + "\n");
 
         // 创建文章标签关联
         if (article.getTagIdList() != null && !article.getTagIdList().isEmpty()) {
