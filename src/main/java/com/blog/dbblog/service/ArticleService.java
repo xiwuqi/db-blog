@@ -32,6 +32,18 @@ public interface ArticleService {
     void saveArticle(Article article);
 
     /**
+     * 创建文章标签关联
+     * @param article
+     */
+    void createArticleTagRelations(Article article);
+
+    /**
+     * 创建文章分类关联
+     * @param article
+     */
+    void createArticleCategoryRelations(Article article);
+
+    /**
      * 修改文章
      * @param article
      * @return
