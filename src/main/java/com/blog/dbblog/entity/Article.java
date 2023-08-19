@@ -88,5 +88,15 @@ public class Article {
      */
     private List<Category> categoryList;
 
+    /**
+     * 文章标签添加或更新时使用
+     */
+    private List<Integer> tagIdList;
+
+    /**
+     * 文章类别添加或更新时使用
+     */
+    private List<Integer> categoryIdList;
+
 }
 
