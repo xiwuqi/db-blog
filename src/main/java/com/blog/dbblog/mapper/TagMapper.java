@@ -56,5 +56,12 @@ public interface TagMapper {
      * @return
      */
     Tag getByTagName(Tag tag);
+
+    /**
+     * 根据id查找标签
+     * @param id
+     * @return
+     */
+    Tag getById(Integer id);
 }
 

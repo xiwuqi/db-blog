@@ -60,5 +60,12 @@ public interface TagService {
      */
     Tag findByTagName(String tagName);
 
+    /**
+     * 根据id查找
+     * @param tagId
+     * @return
+     */
+    Tag findById(Integer tagId);
+
 }
 

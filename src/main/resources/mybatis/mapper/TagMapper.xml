@@ -51,4 +51,8 @@
         SELECT * FROM person_tag WHERE tag_name = #{tagName}
     </select>
 
+    <select id="getById" resultType="com.blog.dbblog.entity.Tag">
+        select id from person_tag where id = #{tagId}
+    </select>
+
 </mapper>
