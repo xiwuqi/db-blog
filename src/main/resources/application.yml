@@ -8,6 +8,16 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 300
+    password:
+  data:
+    redis:
+      repositories:
+        enabled: false
+
 server:
   port: 9090
   servlet:
