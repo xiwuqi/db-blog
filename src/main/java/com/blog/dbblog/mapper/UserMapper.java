@@ -46,4 +46,11 @@ public interface UserMapper {
      * @return
      */
     User getUserById(Integer userId);
+
+    /**
+     * 根据用户名获取用户
+     * @param userName
+     * @return
+     */
+    User findByUsername(String userName);
 }

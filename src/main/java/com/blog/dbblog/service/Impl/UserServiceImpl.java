@@ -48,4 +48,14 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserById(userId);
         return user;
     }
+
+    @Override
+    public User getUserByUserName(String userName) {
+        if (userName == null) {
+            return null;
+        }
+        User user = userMapper.findByUsername(userName);
+        return user;
+    }
+
 }

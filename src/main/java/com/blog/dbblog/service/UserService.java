@@ -13,6 +13,7 @@ public interface UserService {
 
     /**
      * 查询所有用户列表
+     *
      * @return
      */
     List<User> findAll();
@@ -41,5 +42,12 @@ public interface UserService {
      * @return
      */
     User findByUserId(Integer userId);
+
+    /**
+     * 根据用户名获取用户
+     * @param userName
+     * @return
+     */
+    User getUserByUserName(String userName);
 }
 
