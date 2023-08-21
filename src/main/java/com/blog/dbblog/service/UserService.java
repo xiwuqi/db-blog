@@ -49,5 +49,12 @@ public interface UserService {
      * @return
      */
     User getUserByUserName(String userName);
+
+    /**
+     * 更新上次登录时间
+     * @param userId
+     */
+    void updateLoginTime(Integer userId);
+
 }
 

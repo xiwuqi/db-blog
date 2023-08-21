@@ -50,4 +50,29 @@
         select * from person_user where username = #{userName, jdbcType=VARCHAR}
     </select>
 
+    <update id="updateById" parameterType="com.blog.dbblog.entity.User">
+        update person_user
+        <set>
+            <if test="userName!=null">
+                username = #{userName},
+            </if>
+            <if test="passWord!=null">
+                password = #{passWord},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="lastLoginTime!=null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="nickname!=null">
+                nickname = #{nickname}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>
