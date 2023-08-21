@@ -1,13 +1,16 @@
 package com.blog.dbblog.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.blog.dbblog.annotation.OperationLogSys;
+import com.blog.dbblog.annotation.OperationType;
 import com.blog.dbblog.entity.ErrorCode;
 import com.blog.dbblog.entity.LoginModel;
+import com.blog.dbblog.entity.LoginOperationLog;
 import com.blog.dbblog.entity.User;
+import com.blog.dbblog.service.LoginOperationLogService;
 import com.blog.dbblog.service.UserService;
-import com.blog.dbblog.util.JsonResult;
-import com.blog.dbblog.util.MD5Util;
-import com.blog.dbblog.util.PhoneUtil;
+import com.blog.dbblog.util.*;
+import eu.bitwalker.useragentutils.UserAgent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.map.HashedMap;
@@ -19,13 +22,17 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author wuxi
@@ -38,9 +45,10 @@ import java.util.Map;
 public class UserController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    @Autowired
-    UserService userService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private LoginOperationLogService loginOperationLogService;
 
     /**
      * 用户列表
@@ -59,6 +67,7 @@ public class UserController {
      */
     @ApiOperation(value = "添加用户")
     @PostMapping("/create")
+    @OperationLogSys(desc = "添加用户", operationType = OperationType.INSERT)
     public JsonResult<Object> userCreate(@RequestBody @Valid User user) {
         if (StrUtil.isEmpty(user.getPassWord())) {
             return JsonResult.error("密码为空，请填写密码！");
@@ -80,6 +89,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改用户")
     @PostMapping("/update")
+    @OperationLogSys(desc = "修改用户", operationType = OperationType.UPDATE)
     public JsonResult<Object> userUpdate(@RequestBody @Valid User user) {
         if (StrUtil.isEmpty(user.getPassWord())) {
             return JsonResult.error("密码为空，请填写密码！");
@@ -95,11 +105,12 @@ public class UserController {
     }
 
     /**
-     * 删除
+     * 删除用户
      * @return
      */
     @ApiOperation(value = "删除用户")
     @PostMapping("/delete/{id}")
+    @OperationLogSys(desc = "删除用户", operationType = OperationType.DELETE)
     public JsonResult<Object> userDelete(@PathVariable(value = "id") int id) {
         userService.deleteUser(id);
         return JsonResult.success();
@@ -110,8 +121,10 @@ public class UserController {
      * @param loginModel
      * @return
      */
+    @ApiOperation(value = "登录")
     @PostMapping("/login")
-    public JsonResult<Object> login(@RequestBody LoginModel loginModel){
+    @OperationLogSys(desc = "登录", operationType = OperationType.LOGIN)
+    public JsonResult<Object> login(@RequestBody LoginModel loginModel) {
         logger.info("{} 在请求登录！ ", loginModel.getUsername());
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginModel.getUsername(), loginModel.getPassword(), false);
@@ -120,6 +133,7 @@ public class UserController {
             Map<String, Object> ret = new HashedMap();
             ret.put("token", subject.getSession().getId());
             logger.info("{} login success", loginModel.getUsername());
+            getLoginInfoLog(loginModel, 0);
             return JsonResult.success(ret);
         } catch (IncorrectCredentialsException e) {
             logger.info("login fail {}", e.getMessage());
@@ -132,10 +146,10 @@ public class UserController {
             return JsonResult.error(ErrorCode.USER_NOT_EXIST);
         } catch (Exception e) {
             e.printStackTrace();
+            getLoginInfoLog(loginModel, 1);
             logger.info("login fail {}", e.getMessage());
             return JsonResult.error(ErrorCode.ERROR_CODE);
         }
-
     }
 
     /**
@@ -153,6 +167,7 @@ public class UserController {
         return JsonResult.success(ret);
     }
 
+
     @PostMapping("/logout")
     public JsonResult<Object> logout(){
         Subject subject =SecurityUtils.getSubject();
@@ -165,7 +180,35 @@ public class UserController {
         return JsonResult.error(ErrorCode.NOT_LOGIN);
     }
 
+    /**
+     * 获取登录日志
+     */
+    public void getLoginInfoLog(LoginModel loginModel, Integer status) {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = (HttpServletRequest) Objects.requireNonNull(requestAttributes).resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        //解析agent字符串
+        UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
 
+        //登录账号
+        LoginOperationLog loginOperationLog = new LoginOperationLog();
+        loginOperationLog.setLoginName(loginModel.getUsername());
+
+        //登录IP地址
+        String ipAddr = IpUtil.getIpAddr(request);
+        loginOperationLog.setIpAddress(ipAddr);
+        //登录地点
+        String ipInfo = IpUtil.getIpInfo(ipAddr);
+        loginOperationLog.setLoginLocation(ipInfo);
+        //浏览器类型
+        String browser = userAgent.getBrowser().getName();
+        loginOperationLog.setBrowserType(browser);
+        //操作系统
+        String os = userAgent.getOperatingSystem().getName();
+        loginOperationLog.setOs(os);
+        //登录状态
+        loginOperationLog.setLoginStatus(status);
+        loginOperationLogService.saveOperationLog(loginOperationLog);
+    }
 
 }
 
