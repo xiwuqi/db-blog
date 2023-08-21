@@ -109,9 +109,9 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "删除用户")
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete")
     @OperationLogSys(desc = "删除用户", operationType = OperationType.DELETE)
-    public JsonResult<Object> userDelete(@PathVariable(value = "id") int id) {
+    public JsonResult<Object> userDelete(@RequestParam(value = "id") int id) {
         userService.deleteUser(id);
         return JsonResult.success();
     }
@@ -134,6 +134,9 @@ public class UserController {
             ret.put("token", subject.getSession().getId());
             logger.info("{} login success", loginModel.getUsername());
             getLoginInfoLog(loginModel, 0);
+            // 先修改上个登录的时间
+            User user = userService.getUserByUserName(loginModel.getUsername());
+            userService.updateLoginTime(user.getId());
             return JsonResult.success(ret);
         } catch (IncorrectCredentialsException e) {
             logger.info("login fail {}", e.getMessage());
