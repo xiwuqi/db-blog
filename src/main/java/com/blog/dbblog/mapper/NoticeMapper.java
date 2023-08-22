@@ -39,4 +39,11 @@ public interface NoticeMapper {
      */
     void deleteNotice(Integer id);
 
+    /**
+     * 获取公告
+     * @param id
+     * @return
+     */
+    Notice getNoticeById(Integer id);
+
 }

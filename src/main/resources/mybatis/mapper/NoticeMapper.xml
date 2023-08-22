@@ -40,5 +40,8 @@
         delete from person_notice where notice_id = #{noticeId, jdbcType=INTEGER}
     </delete>
 
+    <select id="getNoticeById" resultMap="BaseResultMap">
+        select * from person_notice where notice_id = #{noticeId}
+    </select>
 
 </mapper>

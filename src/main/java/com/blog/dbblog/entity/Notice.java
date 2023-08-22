@@ -25,7 +25,7 @@ public class Notice {
     private String noticeTitle;
 
     /**
-     * 公告类型
+     * 公告类型，默认0, 0-公告, 1-通知, 2-提醒
      */
     private Integer noticeType;
 

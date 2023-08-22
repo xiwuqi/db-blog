@@ -46,4 +46,10 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.deleteNotice(noticeId);
     }
 
+    @Override
+    public Notice getNoticeById(Integer noticeId) {
+        Notice notice = noticeMapper.getNoticeById(noticeId);
+        return notice;
+    }
+
 }
