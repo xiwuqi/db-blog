@@ -49,19 +49,28 @@ public class ShiroConfiguration {
 
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了，登出后跳转配置的loginUrl
         filterChainDefinitionMap.put("/user/logout", "logout");
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/user/login", "anon");
+
+        filterChainDefinitionMap.put("/docs", "anon");
+        filterChainDefinitionMap.put("/swagger-ui/**", "anon");
+        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        filterChainDefinitionMap.put("/", "anon");
-//        filterChainDefinitionMap.put("/user/info", "anon");
-        // 未登录时需要加下面这条才能正常进行测试操作
-        filterChainDefinitionMap.put("/login.jsp", "authc");
+        filterChainDefinitionMap.put("/v3/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/**", "anon");
+        filterChainDefinitionMap.put("/","anon");
+        filterChainDefinitionMap.put("/csrf","anon");
+        filterChainDefinitionMap.put("/src/main/resources/uploadFile/articles/**","anon");
+        filterChainDefinitionMap.put("/article/upload", "anon");
+
+        //filterChainDefinitionMap.put("/user/info", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
+
         //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
         filterChainDefinitionMap.put("/user/unauth", "anon");
-        // 下面这行代码会放行所有请求路径
-        // filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
