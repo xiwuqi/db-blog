@@ -3,6 +3,7 @@ package com.blog.dbblog.controller;
 import com.blog.dbblog.annotation.OperationLogSys;
 import com.blog.dbblog.annotation.OperationType;
 import com.blog.dbblog.bo.ArticleBO;
+import com.blog.dbblog.bo.ArticleInsertBO;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.config.page.PageResult;
 import com.blog.dbblog.entity.Article;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -56,8 +58,8 @@ public class ArticleController {
     @ApiOperation(value = "添加文章")
     @PostMapping("/create")
     @OperationLogSys(desc = "添加文章", operationType = OperationType.INSERT)
-    public JsonResult<Object> articleCreate(@RequestBody @Valid Article article) {
-        articleService.saveArticle(article);
+    public JsonResult<Object> articleCreate(@RequestBody @Valid ArticleInsertBO bo) throws Exception {
+        articleService.insertOrUpdateArticle(bo);
         return JsonResult.success();
     }
 
@@ -97,6 +99,19 @@ public class ArticleController {
         Article article = articleService.findById(id);
         return JsonResult.success(article);
     }
+
+    /**
+     * 上传网站logo封面
+     * @param file
+     * @return 返回logo地址
+     */
+    @ApiOperation(value = "上传网站logo封面")
+    @PostMapping("upload")
+    public JsonResult<String> uploadImg(@RequestParam(value = "file") MultipartFile file) {
+        String s = articleService.uploadFile(file);
+        return JsonResult.success(s);
+    }
+
 
 
 }
