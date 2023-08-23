@@ -1,5 +1,6 @@
 package com.blog.dbblog.service;
 
+import com.blog.dbblog.bo.TagBO;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.entity.Tag;
 
@@ -66,6 +67,14 @@ public interface TagService {
      * @return
      */
     Tag findById(Integer tagId);
+
+    /**
+     * 搜索文章标签
+     *
+     * @param bo
+     * @return
+     */
+    List<Tag> getTagsByTagName(TagBO bo);
 
 }
 

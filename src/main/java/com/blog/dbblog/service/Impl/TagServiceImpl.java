@@ -1,5 +1,6 @@
 package com.blog.dbblog.service.Impl;
 
+import com.blog.dbblog.bo.TagBO;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.entity.Tag;
 import com.blog.dbblog.mapper.TagMapper;
@@ -99,6 +100,12 @@ public class TagServiceImpl implements TagService {
             return null;
         }
         return tag;
+    }
+
+    @Override
+    public List<Tag> getTagsByTagName(TagBO bo) {
+        List<Tag> tagsByTagName = tagMapper.findTagsByTagName(bo);
+        return tagsByTagName;
     }
 
 }

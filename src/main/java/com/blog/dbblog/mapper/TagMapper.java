@@ -1,5 +1,6 @@
 package com.blog.dbblog.mapper;
 
+import com.blog.dbblog.bo.TagBO;
 import com.blog.dbblog.entity.Tag;
 import org.springframework.stereotype.Repository;
 
@@ -63,5 +64,12 @@ public interface TagMapper {
      * @return
      */
     Tag getById(Integer id);
+
+    /**
+     * 查询文章标签
+     * @param bo
+     * @return
+     */
+    List<Tag> findTagsByTagName(TagBO bo);
 }
 

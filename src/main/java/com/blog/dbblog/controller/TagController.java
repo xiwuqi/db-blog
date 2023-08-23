@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.blog.dbblog.annotation.OperationLogSys;
 import com.blog.dbblog.annotation.OperationType;
+import com.blog.dbblog.bo.TagBO;
 import com.blog.dbblog.common.PageRequestApi;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.config.page.PageResult;
@@ -133,5 +134,19 @@ public class TagController {
         tagService.deleteTag(id);
         return JsonResult.success();
     }
+
+    /**
+     * 按条件查询文章标签
+     * @param bo
+     * @return
+     */
+    @ApiOperation(value = "查询文章标签")
+    @PostMapping("/selectTag")
+    @OperationLogSys(desc = "查询文章标签", operationType = OperationType.SELECT)
+    public JsonResult<Object> getTagByTagName(@RequestBody @Valid TagBO bo) {
+        List<Tag> tagsByTagName = tagService.getTagsByTagName(bo);
+        return JsonResult.success(tagsByTagName);
+    }
+
 }
 

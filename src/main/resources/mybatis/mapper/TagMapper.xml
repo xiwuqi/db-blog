@@ -55,4 +55,14 @@
         select id from person_tag where id = #{tagId}
     </select>
 
+    <select id="findTagsByTagName" parameterType="com.blog.dbblog.bo.TagBO" resultMap="BaseResultMap">
+        select * from person_tag
+        <where>
+            <if test="tagName != null and tagName != ''">
+                and tag_name like '%${tagName}%'
+            </if>
+        </where>
+    </select>
+
+
 </mapper>
