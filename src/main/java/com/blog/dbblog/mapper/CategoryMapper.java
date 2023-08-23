@@ -1,5 +1,6 @@
 package com.blog.dbblog.mapper;
 
+import com.blog.dbblog.bo.CategoryBO;
 import com.blog.dbblog.entity.Category;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +48,21 @@ public interface CategoryMapper {
      * @return
      */
     Category getById(Integer id);
+
+    /**
+     * 查询分类
+     * @param bo
+     * @return
+     */
+    List<Category> findCategoriesByName(CategoryBO bo);
+
+    /**
+     * 根据分类名查询分类
+     * @param categoryName
+     * @return
+     */
+    Category getCategoryByName(String categoryName);
+
 
 }
 

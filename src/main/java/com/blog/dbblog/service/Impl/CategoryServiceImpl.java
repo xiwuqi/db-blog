@@ -1,5 +1,6 @@
 package com.blog.dbblog.service.Impl;
 
+import com.blog.dbblog.bo.CategoryBO;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.entity.Category;
 import com.blog.dbblog.mapper.CategoryMapper;
@@ -33,7 +34,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public int saveCategory(Category category) {
+    public int saveCategory(Category category) throws Exception {
+        if (getCategoryByName(category.getCategoryName()) != null) {
+            throw new Exception ("分类已存在");
+        }
         return categoryMapper.create(category);
     }
 
@@ -55,5 +59,18 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return category;
     }
+
+    @Override
+    public List<Category> getCategoriesByName(CategoryBO bo) {
+        List<Category> categoriesByName = categoryMapper.findCategoriesByName(bo);
+        return categoriesByName;
+    }
+
+    @Override
+    public Category getCategoryByName(String categoryName) {
+        Category category = categoryMapper.getCategoryByName(categoryName);
+        return category;
+    }
+
 }
 

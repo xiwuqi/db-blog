@@ -36,4 +36,19 @@
         select category_id from person_category where category_id = #{categoryId}
     </select>
 
+    <select id="findCategoriesByName" parameterType="com.blog.dbblog.bo.CategoryBO" resultMap="BaseResultMap">
+        select * from person_category
+        <where>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name like '%${categoryName}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getCategoryByName"  resultMap="BaseResultMap">
+        select * from person_category where category_name = #{categoryName, jdbcType=VARCHAR}
+    </select>
+
+
+
 </mapper>

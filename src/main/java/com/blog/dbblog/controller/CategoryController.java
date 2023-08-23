@@ -2,6 +2,7 @@ package com.blog.dbblog.controller;
 
 import com.blog.dbblog.annotation.OperationLogSys;
 import com.blog.dbblog.annotation.OperationType;
+import com.blog.dbblog.bo.CategoryBO;
 import com.blog.dbblog.common.PageRequestApi;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.config.page.PageResult;
@@ -54,7 +55,7 @@ public class CategoryController {
     @ApiOperation(value = "添加分类")
     @PostMapping("/create")
     @OperationLogSys(desc = "添加分类", operationType = OperationType.INSERT)
-    public JsonResult<Object> categoryCreate(@RequestBody @Valid Category category) {
+    public JsonResult<Object> categoryCreate(@RequestBody @Valid Category category) throws Exception {
         int isStatus = categoryService.saveCategory(category);
         if (isStatus == 0) {
             return JsonResult.error("添加分类失败");
@@ -89,5 +90,19 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return JsonResult.success();
     }
+
+    /**
+     * 搜索文章分类
+     * @param bo
+     * @return
+     */
+    @ApiOperation(value = "查询分类名称")
+    @PostMapping("/getCategory")
+    @OperationLogSys(desc = "查询分类名称", operationType = OperationType.SELECT)
+    public JsonResult<Object> getCategoryByName(@RequestBody @Valid CategoryBO bo) {
+        List<Category> categoriesByName = categoryService.getCategoriesByName(bo);
+        return JsonResult.success(categoriesByName);
+    }
+
 
 }

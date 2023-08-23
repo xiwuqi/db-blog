@@ -1,5 +1,6 @@
 package com.blog.dbblog.service;
 
+import com.blog.dbblog.bo.CategoryBO;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.entity.Category;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface CategoryService {
      * @param category
      * @return
      */
-    int saveCategory(Category category);
+    int saveCategory(Category category) throws Exception;
 
     /**
      * 修改分类
@@ -44,5 +45,19 @@ public interface CategoryService {
      * @return
      */
     Category findById(Integer categoryId);
+
+    /**
+     * 搜索文章分类
+     * @param bo
+     * @return
+     */
+    List<Category> getCategoriesByName(CategoryBO bo);
+
+    /**
+     * 获取分类
+     * @param categoryName
+     * @return
+     */
+    Category getCategoryByName(String categoryName);
 
 }
