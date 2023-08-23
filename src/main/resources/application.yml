@@ -18,6 +18,12 @@ spring:
       repositories:
         enabled: false
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
 server:
   port: 9090
   servlet:
@@ -32,3 +38,8 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+upload:
+  local:
+    path: src/main/resources/uploadFile/
+    url: http://localhost:9090/blog/
