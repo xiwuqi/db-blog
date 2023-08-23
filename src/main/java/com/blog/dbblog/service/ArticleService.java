@@ -1,7 +1,9 @@
 package com.blog.dbblog.service;
 
 import com.blog.dbblog.bo.ArticleBO;
+import com.blog.dbblog.bo.ArticleInsertBO;
 import com.blog.dbblog.entity.Article;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -62,6 +64,21 @@ public interface ArticleService {
      * @return
      */
     Article findById(Integer articleId);
+
+    /**
+     * 上传文件
+     *
+     * @param file
+     * @return
+     */
+    String uploadFile(MultipartFile file);
+
+    /**
+     * 新建文章
+     * @param bo
+     * @return
+     */
+    void insertOrUpdateArticle(ArticleInsertBO bo) throws Exception;
 
 }
 
