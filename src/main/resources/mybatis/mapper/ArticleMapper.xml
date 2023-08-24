@@ -58,20 +58,22 @@
 
 
     <select id="getArticlePage" resultMap="BaseResultMap" parameterType="com.blog.dbblog.bo.ArticleBO">
-        SELECT
-        a.*,
-        t.id AS sid,
-        t.tag_name,
-        c.category_id AS cid,
-        c.category_name
+        SELECT DISTINCT
+        a.*
         FROM person_article a
-        left join person_article_tag att on a.id = att.article_id
-        left join person_article_category acc on a.id = acc.article_id
-        left join person_tag t on t.id = att.tag_id
-        left join person_category c on c.category_id = acc.category_id
+        LEFT JOIN person_article_tag att ON a.id = att.article_id
+        LEFT JOIN person_article_category acc ON a.id = acc.article_id
+        LEFT JOIN person_tag t ON t.id = att.tag_id
+        LEFT JOIN person_category c ON c.category_id = acc.category_id
         <where>
             <if test="articleBO.title != null">
                 and a.title LIKE CONCAT('%', #{articleBO.title}, '%')
+            </if>
+            <if test="articleBO.categoryId != null">
+                and c.category_id = #{articleBO.categoryId}
+            </if>
+            <if test="articleBO.tagId != null">
+                and t.id = #{articleBO.tagId}
             </if>
             <if test="articleBO.artStatus != null">
                 and a.art_status = #{articleBO.artStatus}
