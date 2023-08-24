@@ -8,6 +8,15 @@ import lombok.Data;
  */
 @Data
 public class ArticleBO {
+    /**
+     * 分类id
+     */
+    private Integer categoryId;
+
+    /**
+     * 标签id
+     */
+    private Integer tagId;
 
     /**
      * 发布，默认0, 0-发布, 1-草稿
