@@ -4,12 +4,14 @@ import com.blog.dbblog.annotation.OperationLogSys;
 import com.blog.dbblog.annotation.OperationType;
 import com.blog.dbblog.bo.ArticleBO;
 import com.blog.dbblog.bo.ArticleInsertBO;
+import com.blog.dbblog.common.PageRequestApi;
 import com.blog.dbblog.config.page.PageRequest;
 import com.blog.dbblog.config.page.PageResult;
 import com.blog.dbblog.entity.Article;
 import com.blog.dbblog.service.ArticleService;
 import com.blog.dbblog.util.JsonResult;
 import com.blog.dbblog.util.PageUtil;
+import com.blog.dbblog.vo.ArticleVO;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,12 +43,12 @@ public class ArticleController {
      */
     @ApiOperation(value = "文章列表")
     @PostMapping("list")
-    public JsonResult<Object> listPage(@RequestBody @Valid ArticleBO articleBO) {
-        List<Article> articleList = articleService.getArticlePage(articleBO);
+    public JsonResult<Object> listPage(@RequestBody @Valid PageRequestApi<ArticleBO> articleBO) {
+        List<Article> articleList = articleService.getArticlePage(articleBO.getBody());
         PageInfo pageInfo = new PageInfo(articleList);
         PageRequest pageRequest = new PageRequest();
-        pageRequest.setPageNum(articleBO.getPageNum());
-        pageRequest.setPageSize(articleBO.getPageSize());
+        pageRequest.setPageNum(articleBO.getBody().getPageNum());
+        pageRequest.setPageSize(articleBO.getBody().getPageSize());
         PageResult pageResult = PageUtil.getPageResult(pageRequest, pageInfo);
         return JsonResult.success(pageResult);
     }
@@ -93,10 +95,10 @@ public class ArticleController {
      * @return
      */
     @ApiOperation(value = "根据文章id查找")
-    @PostMapping("/getArticle/{id}")
+    @GetMapping("/getArticle/{id}")
     @OperationLogSys(desc = "根据文章id查找", operationType = OperationType.SELECT)
     public JsonResult<Object> getArticleById(@PathVariable(value = "id") int id) {
-        Article article = articleService.findById(id);
+        ArticleVO article = articleService.findById(id);
         return JsonResult.success(article);
     }
 
@@ -111,8 +113,6 @@ public class ArticleController {
         String s = articleService.uploadFile(file);
         return JsonResult.success(s);
     }
-
-
 
 }
 
