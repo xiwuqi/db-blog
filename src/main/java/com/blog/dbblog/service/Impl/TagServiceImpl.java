@@ -94,7 +94,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findById(Integer tagId) {
+    public Tag findTagById(Integer tagId) {
         Tag tag = tagMapper.getById(tagId);
         if (tag == null) {
             return null;

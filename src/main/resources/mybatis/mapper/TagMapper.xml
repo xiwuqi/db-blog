@@ -51,8 +51,8 @@
         SELECT * FROM person_tag WHERE tag_name = #{tagName}
     </select>
 
-    <select id="getById" resultType="com.blog.dbblog.entity.Tag">
-        select id from person_tag where id = #{tagId}
+    <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT * FROM person_tag WHERE id = #{tagId}
     </select>
 
     <select id="findTagsByTagName" parameterType="com.blog.dbblog.bo.TagBO" resultMap="BaseResultMap">
