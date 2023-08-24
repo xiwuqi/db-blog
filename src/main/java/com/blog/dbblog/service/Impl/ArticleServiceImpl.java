@@ -11,6 +11,7 @@ import com.blog.dbblog.entity.*;
 import com.blog.dbblog.mapper.ArticleMapper;
 import com.blog.dbblog.service.*;
 import com.blog.dbblog.util.FileUtils;
+import com.blog.dbblog.vo.ArticleVO;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
@@ -81,20 +82,8 @@ public class ArticleServiceImpl implements ArticleService {
     public void init() {
         List<Article> articleList = articleMapper.findAll();
         try {
+            getTagsOrCategory(articleList);
             for(Article article : articleList) {
-                /*
-                 * System.out.println("\narticle 初始的值：" + article.toString() + "\n");
-                */
-                // 获取关联的 ID 列的值
-                List<Integer> tagIdList = article.getTagList().stream().map(Tag::getId).collect(Collectors.toList());
-                List<Integer> categoryIdList = article.getCategoryList().stream().map(Category::getCategoryId).collect(Collectors.toList());
-
-                // 设置关联的 ID 列的值到文章对象
-                article.setTagIdList(tagIdList);
-                article.setCategoryIdList(categoryIdList);
-                /*
-                 * System.out.println("\narticle 增加关联后的值：" + article.toString() + "\n");
-                */
                 articleMap.put(article.getId(), article);
             }
             log.info("文章缓存数据加载完成");
@@ -109,31 +98,46 @@ public class ArticleServiceImpl implements ArticleService {
         int pageSize = articleBO.getPageSize();
         PageHelper.startPage(pageNum,pageSize);
         List<Article> articleList = articleMapper.getArticlePage(articleBO);
-        if (articleList != null) {
-            for (Article article : articleList) {
-                // TagIdList和CategoryIdList在数据库中未设立字段，所以要从缓存中读取
-                article.setTagIdList(articleMap.get(article.getId()).getTagIdList());
-                article.setCategoryIdList(articleMap.get(article.getId()).getCategoryIdList());
+        getTagsOrCategory(articleList);
+        return articleList;
+    }
+
+    public void getTagsOrCategory(List<Article> list) {
+        if (list != null) {
+            for (Article article : list) {
+                // 添加类别
+                List<Category> categoryList = new ArrayList<>();
+                List<ArticleCategory> articleCategories = articleCategoryService.findArticleCategoryById(article.getId());
+                if (articleCategories != null) {
+                    for (ArticleCategory articleCategory : articleCategories) {
+                        Category category = categoryService.findById(articleCategory.getCategoryId());
+                        categoryList.add(category);
+                    }
+                }
+                article.setCategoryList(categoryList);
+                // 添加标签
+                List<Tag> tagList = new ArrayList<>();
+                List<ArticleTag> articleTags = articleTagService.findArticleTagById(article.getId());
+                if (articleTags != null) {
+                    for (ArticleTag articleTag : articleTags) {
+                        Tag tag = tagService.findTagById(articleTag.getTagId());
+                        tagList.add(tag);
+                    }
+                }
+                article.setTagList(tagList);
             }
         }
-        return articleList;
     }
 
     /* 注：此函数用于创建新的文章，所有关联数据库的数据都被正常写入，它被调用将article信息写入articleMap的时候
     *  其不包含createTime、updateTime、tagList、categoryList的数据，因为前端没有传，而对应数据库字段的数据
     *  在xml中就被完成赋值了 */
+    /*  此函数已废弃 */
     @Override
     public void saveArticle(Article article) {
-//        System.out.println("\nTagIdList的值："+ article.getTagIdList().toString());
-//        System.out.println("CategoryIdList的值:"+article.getCategoryIdList().toString()+"\n");
         // 创建文章记录
         articleMapper.createArticle(article);
         articleMap.put(article.getId(), article);
-
-//        System.out.println("\n这是 article 刚创建时的结构："
-//                + article + "\n");
-//        System.out.println("\n这是：articleMap.get(article.getId()).getTagList()的输出结果"
-//                + articleMap.get(article.getId()).getTagList() + "\n");
 
         // 创建文章标签关联
         if (article.getTagIdList() != null && !article.getTagIdList().isEmpty()) {
@@ -213,13 +217,27 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findById(Integer articleId) {
+    public ArticleVO findById(Integer articleId) {
         Article article = articleMap.get(articleId);
-        if (article == null) {
-            Article art = articleMapper.getById(articleId);
-            return art;
+
+        ArticleVO articleVO = BeanUtil.copyProperties(article, ArticleVO.class);
+        List<String> categoryNameList = new ArrayList<>();
+        List<String> tagNameList = new ArrayList<>();
+        if (articleVO != null) {
+            if (articleVO.getCategoryList() != null) {
+                for (Category category : articleVO.getCategoryList()) {
+                    categoryNameList.add(category.getCategoryName());
+                }
+            }
+            if (articleVO.getTagList() != null) {
+                for (Tag tag : articleVO.getTagList()) {
+                    tagNameList.add(tag.getTagName());
+                }
+            }
         }
-        return article;
+        articleVO.setTagNameList(tagNameList);
+        articleVO.setCategoryNameList(categoryNameList);
+        return articleVO;
     }
 
     @Override

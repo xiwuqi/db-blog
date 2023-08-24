@@ -3,6 +3,7 @@ package com.blog.dbblog.service;
 import com.blog.dbblog.bo.ArticleBO;
 import com.blog.dbblog.bo.ArticleInsertBO;
 import com.blog.dbblog.entity.Article;
+import com.blog.dbblog.vo.ArticleVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public interface ArticleService {
      * @param articleId
      * @return
      */
-    Article findById(Integer articleId);
+    ArticleVO findById(Integer articleId);
 
     /**
      * 上传文件
