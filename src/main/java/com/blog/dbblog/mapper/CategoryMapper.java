@@ -50,7 +50,7 @@ public interface CategoryMapper {
     Category getById(Integer id);
 
     /**
-     * 查询分类
+     * 查询分类(用于查找对应分类下的文章)
      * @param bo
      * @return
      */

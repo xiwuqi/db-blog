@@ -32,8 +32,8 @@
         delete from person_category where category_id = #{categoryId, jdbcType=INTEGER}
     </delete>
 
-    <select id="getById" resultType="com.blog.dbblog.entity.Category">
-        select category_id from person_category where category_id = #{categoryId}
+    <select id="getById" resultMap="BaseResultMap">
+        select * from person_category where category_id = #{categoryId, jdbcType=INTEGER}
     </select>
 
     <select id="findCategoriesByName" parameterType="com.blog.dbblog.bo.CategoryBO" resultMap="BaseResultMap">
@@ -48,7 +48,5 @@
     <select id="getCategoryByName"  resultMap="BaseResultMap">
         select * from person_category where category_name = #{categoryName, jdbcType=VARCHAR}
     </select>
-
-
 
 </mapper>
