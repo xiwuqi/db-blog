@@ -43,3 +43,10 @@ upload:
   local:
     path: src/main/resources/uploadFile/
     url: http://localhost:9090/blog/
+
+send:
+  mail:
+    host: # 邮件服务器的SMTP地址
+    port: # 邮件服务器的SMTP端口
+    from: # 发件人
+    pass: # 密码

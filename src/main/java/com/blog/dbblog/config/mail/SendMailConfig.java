@@ -4,6 +4,7 @@ import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * 邮件发送
@@ -13,6 +14,17 @@ import lombok.extern.log4j.Log4j2;
  **/
 @Log4j2
 public class SendMailConfig {
+    @Value("${send.mail.host}")
+    private static String host;
+
+    @Value("${send.mail.port}")
+    private static Integer port;
+
+    @Value("${send.mail.from}")
+    private static String from;
+
+    @Value("${send.mail.pass}")
+    private static String pass;
 
     /**
      * 邮件发送实现方法
@@ -22,15 +34,15 @@ public class SendMailConfig {
         try {
             MailAccount account = new MailAccount();
             //邮件服务器的SMTP地址
-            account.setHost("smtp.qq.com");
+            account.setHost(host);
             //邮件服务器的SMTP端口
-            account.setPort(587);
-            //发件人邮箱，改成你自己的
-            account.setFrom("2822649171@qq.com");
-            //密码，刚开通的授权码
-            account.setPass("xxxxxxxxxxx");
+            account.setPort(port);
+            //发件人
+            account.setFrom(from);
+            //密码
+            account.setPass(pass);
             //使用SSL安全连接
-            account.setSslEnable(true);
+            account.setSslEnable(false);
             MailUtil.send(account, mailInfo.getReceiveMail(),
                     mailInfo.getTitle(), mailInfo.getContent(), false);
             log.info("邮件发送成功！");
