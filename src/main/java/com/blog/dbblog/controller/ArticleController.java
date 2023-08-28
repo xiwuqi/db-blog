@@ -82,9 +82,9 @@ public class ArticleController {
      * @return
      */
     @ApiOperation(value = "删除文章")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     @OperationLogSys(desc = "删除文章", operationType = OperationType.DELETE)
-    public JsonResult<Object> articleDelete(@PathVariable(value = "id") int id) {
+    public JsonResult<Object> articleDelete(@RequestParam(value = "id") int id) {
         articleService.deleteArticle(id);
         return JsonResult.success();
     }
