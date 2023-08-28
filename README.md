@@ -79,17 +79,17 @@
 
 ## 项目截图
 
-![image-20230828175211133](/Users/wuxi/Library/Application Support/typora-user-images/image-20230828175211133.png)
+![image-2023243082817521113322](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023243082817521113322.png)
 
 ![image-20230828175234944](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175234944.png)
 
-![image-20230828175335019](/Users/wuxi/Library/Application Support/typora-user-images/image-20230828175335019.png)
+![image-2023082817908905335019](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023082817533501442119.png)
 
-![image-20230828175503465](/Users/wuxi/Library/Application Support/typora-user-images/image-20230828175503465.png)
+![image-20230828175503465](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175503465.png)
 
-![image-20230828175530507](/Users/wuxi/Library/Application Support/typora-user-images/image-20230828175530507.png)
+![image-2023032532532828175530507](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023032532532828175530507.png)
 
-![image-20230828175551801](/Users/wuxi/Library/Application Support/typora-user-images/image-20230828175551801.png)
+![image-20230361742828175551801](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230361742828175551801.png)
 
 ![image-20230828175609507](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175609507.png)
 
