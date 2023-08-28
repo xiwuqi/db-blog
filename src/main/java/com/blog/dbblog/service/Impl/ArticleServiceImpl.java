@@ -11,6 +11,7 @@ import com.blog.dbblog.entity.*;
 import com.blog.dbblog.mapper.ArticleMapper;
 import com.blog.dbblog.service.*;
 import com.blog.dbblog.util.FileUtils;
+import com.blog.dbblog.util.WordCountUtil;
 import com.blog.dbblog.vo.ArticleVO;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.log4j.Log4j2;
@@ -90,6 +91,7 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (Exception e) {
             log.error("文章缓存数据加载失败！", e.getMessage());
         }
+        // System.out.println(articleMap.size());
     }
 
     @Override
@@ -267,14 +269,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void insertOrUpdateArticle(ArticleInsertBO bo) throws Exception {
-        //分类添加
         Article article = BeanUtil.copyProperties(bo, Article.class);
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         User user = userService.getUserByUserName(username);
         article.setUserId(user.getId());
         article.setAuthor(user.getUserName());
         article.setViews(0L);
-        article.setTotalWords(0L);
+        article.setTotalWords(WordCountUtil.wordCount(bo.getContent()));
         if (bo.getId() != null) {
             articleMapper.updateArticle(article);
         } else {
@@ -283,10 +284,10 @@ public class ArticleServiceImpl implements ArticleService {
         articleMap.put(article.getId(), article);
         // 增加文章分类
         saveCategories(bo, article.getId());
-
         // 添加文章标签
         saveTags(bo, article.getId());
-
+        // 注入缓存
+        this.init();
         //添加文章发送邮箱提醒
         try {
             String content = "【{0}】您好：\n" +
@@ -368,6 +369,12 @@ public class ArticleServiceImpl implements ArticleService {
                     .build()).collect(Collectors.toList());
             articleTagService.insertBatch(articleTagList);
         }
+    }
+
+    @Override
+    public List<Article> getAll() {
+        List<Article> all = articleMapper.findAll();
+        return all;
     }
 
     private void upload(String path, String fileName, InputStream inputStream) throws IOException {
