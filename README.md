@@ -1,16 +1,9 @@
-# db-blog
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xiwuqi/external-css@main/loading.css">
-    </head>
-    <body>
-        <div class="spinner"></div>
-    </body>
-</html>
-
+# 个人博客后台管理系统
+<p align="center">
+    <a href="https://github.com/xiwuqi" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/rawchen/JsDelivr/static/blog/favicon-gif.gif" alt="Blog · Logo" style="width: 200px; height: 200px">
+    </a>
+</p>
 <p align="center">
     <img src="https://img.shields.io/badge/JDK-1.8+-orange">
     <img src="https://img.shields.io/badge/SpringBoot-2.5.5.RELEASE-654EA3">
@@ -20,12 +13,13 @@
     <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fxiwuqi%2Fdb-blog&count_bg=%23F7BA0B&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false">
 </p>
 
-
 ## 简介
 
-前后端分离的博客后台管理项目。 后端使用Java+SpringBoot+MyBatis+MySQL+Log4j+shiro前端使用Vue+Axios+Element UI+项目整体难度简单，部署简单，界面友好，代码结构清晰，很适合初学者学习和练习。
+前后端分离的博客后台管理项目。 后端使用 Java+SpringBoot+MyBatis+MySQL+Log4j+shiro 前端使用 Vue+Axios+Element UI+mavon-editor+vue-calendar-component+echarts+词云 项目整体难度简单，部署简单，界面友好，代码结构清晰，很适合初学者学习和练习。
 
 自用博客，长期维护，欢迎勘误。此项目本是学习过程中的产物，参考了许多优秀的教程和项目，后面会新增博客前台UI的设计。
+
+对应的前端程序如下：https://github.com/xiwuqi/db-blog_vue
 
 ## 环境介绍
 
