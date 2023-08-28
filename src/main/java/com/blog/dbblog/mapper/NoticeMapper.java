@@ -46,4 +46,11 @@ public interface NoticeMapper {
      */
     Notice getNoticeById(Integer id);
 
+    /**
+     * 获取前五条公告
+     * @param
+     * @return
+     */
+    List<Notice> getNoticeTopFive();
+
 }

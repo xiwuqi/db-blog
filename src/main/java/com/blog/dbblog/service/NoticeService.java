@@ -47,4 +47,10 @@ public interface NoticeService {
      */
     Notice getNoticeById(Integer noticeId);
 
+    /**
+     * 获取前5条公告
+     * @return
+     */
+    List<Notice> getNoticeTopFive();
+
 }
