@@ -81,5 +81,12 @@ public interface ArticleService {
      */
     void insertOrUpdateArticle(ArticleInsertBO bo) throws Exception;
 
+    /**
+     * 获取所有文章(不分页)
+     * @param
+     * @return
+     */
+    List<Article> getAll();
+
 }
 
