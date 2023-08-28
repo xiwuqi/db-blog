@@ -8,6 +8,7 @@ import com.blog.dbblog.entity.LoginModel;
 import com.blog.dbblog.entity.LoginOperationLog;
 import com.blog.dbblog.entity.User;
 import com.blog.dbblog.service.LoginOperationLogService;
+import com.blog.dbblog.service.StatisticsService;
 import com.blog.dbblog.service.UserService;
 import com.blog.dbblog.util.*;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -49,6 +50,8 @@ public class UserController {
     private UserService userService;
     @Resource
     private LoginOperationLogService loginOperationLogService;
+    @Resource
+    private StatisticsService statisticsService;
 
     /**
      * 用户列表
@@ -137,6 +140,8 @@ public class UserController {
             // 先修改上个登录的时间
             User user = userService.getUserByUserName(loginModel.getUsername());
             userService.updateLoginTime(user.getId());
+            //在线人数
+            statisticsService.login(user.getUserName(), System.currentTimeMillis());
             return JsonResult.success(ret);
         } catch (IncorrectCredentialsException e) {
             logger.info("login fail {}", e.getMessage());
@@ -171,12 +176,18 @@ public class UserController {
     }
 
 
-    @PostMapping("/logout")
-    public JsonResult<Object> logout(){
-        Subject subject =SecurityUtils.getSubject();
-        subject.logout();
-        return JsonResult.success("成功登出");
+    @RequestMapping("/logout")
+    public JsonResult logout(){
+        User user=(User) SecurityUtils.getSubject().getPrincipal();
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.isAuthenticated()) {
+            subject.logout();
+        }
+        //在线人数
+        statisticsService.logout(user.getUserName(), System.currentTimeMillis());
+        return JsonResult.success("退出登录");
     }
+
 
     @RequestMapping("/unauth")
     public JsonResult<Object> unauth(){
