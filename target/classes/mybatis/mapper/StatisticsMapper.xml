@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.dbblog.mapper.StatisticsMapper">
+
+    <resultMap id="BaseResultMap" type="com.blog.dbblog.vo.StatisticsTopCountVO">
+        <result column="article_count" property="articleCount" jdbcType="INTEGER" />
+        <result column="category_count" property="categoryCount" jdbcType="INTEGER" />
+        <result column="user_count" property="userCount" jdbcType="INTEGER" />
+        <result column="tag_count" property="tagCount" jdbcType="INTEGER" />
+    </resultMap>
+
+    <resultMap id="BaseResultCategoryMap" type="com.blog.dbblog.vo.StatisticsCategoryCountVO">
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="category_count" property="categoryCount" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="getTopCount" resultMap="BaseResultMap">
+        SELECT
+                (SELECT COUNT(*) FROM person_article) AS article_count,
+                (SELECT COUNT(*) FROM person_category) AS category_count,
+                (SELECT COUNT(*) FROM person_user) AS user_count,
+                (SELECT COUNT(*) FROM person_tag) AS tag_count
+    </select>
+
+    <select id="getCategoryCount" resultMap="BaseResultCategoryMap">
+        SELECT s.category_name, COUNT(*) AS category_count FROM person_article_category a
+                                                          left join person_category s on a.category_id = s.category_id
+        GROUP BY a.category_id
+    </select>
+
+
+</mapper>

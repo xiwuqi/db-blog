@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.dbblog.mapper.ArticleCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.blog.dbblog.entity.ArticleCategory">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+    </resultMap>
+
+    <insert id="insertBatch">
+        INSERT INTO person_article_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            article_id, category_id
+        </trim>
+        VALUES
+        <foreach collection="articleCategoryList" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.articleId}, #{item.categoryId}
+            </trim>
+        </foreach>
+    </insert>
+
+    <delete id="deleteByArticleId" parameterType="java.lang.Integer">
+        DELETE FROM person_article_category WHERE article_id = #{articleId}
+    </delete>
+
+    <select id="getArticleCategoryById" resultMap="BaseResultMap">
+        SELECT * FROM person_article_category WHERE article_id = #{articleId}
+    </select>
+
+</mapper>

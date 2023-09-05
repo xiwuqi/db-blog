@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.dbblog.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.blog.dbblog.entity.User">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="passWord"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from person_user;
+    </select>
+
+    <insert id="insert" parameterType="com.blog.dbblog.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO person_user (username, password, email, last_login_time, phone, nickname)
+        VALUES(#{userName}, #{passWord}, #{email}, #{lastLoginTime}, #{phone}, #{nickname})
+    </insert>
+
+    <update id="update" parameterType="com.blog.dbblog.entity.User">
+        update person_user
+        <set>
+            username = #{userName},
+            password = #{passWord},
+            email = #{email},
+            last_login_time = #{lastLoginTime},
+            phone = #{phone},
+            nickname = #{nickname},
+            update_time = NOW()  <!-- 使用MySQL的NOW()函数获取当前时间 -->
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from person_user where id = #{id, jdbcType=INTEGER}
+    </delete>
+
+    <select id="getUserById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from person_user where id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from person_user where username = #{userName, jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateById" parameterType="com.blog.dbblog.entity.User">
+        update person_user
+        <set>
+            <if test="userName!=null">
+                username = #{userName},
+            </if>
+            <if test="passWord!=null">
+                password = #{passWord},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="lastLoginTime!=null">
+                last_login_time = #{lastLoginTime},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="nickname!=null">
+                nickname = #{nickname}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

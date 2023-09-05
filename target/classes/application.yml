@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: blog
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_blog?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 300
+    password:
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+server:
+  port: 9090
+  servlet:
+    context-path: /blog
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+upload:
+  local:
+    path: src/main/resources/uploadFile/
+    url: http://localhost:9090/blog/
+
+send:
+  mail:
+    host: # 邮件服务器的SMTP地址
+    port: # 邮件服务器的SMTP端口
+    from: # 发件人
+    pass: # 密码
