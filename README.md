@@ -73,35 +73,35 @@
 
 ## 项目截图
 
-![image-2023243082817521113322](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023243082817521113322.png)
+![image-2023243082817521113322](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-2023243082817521113322.png)
 
-![image-20230828175234944](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175234944.png)
+![image-20230828175234944](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175234944.png)
 
-![image-2023082817908905335019](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023082817533501442119.png)
+![image-2023082817908905335019](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-2023082817533501442119.png)
 
-![image-20230828175503465](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175503465.png)
+![image-20230828175503465](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175503465.png)
 
-![image-2023032532532828175530507](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-2023032532532828175530507.png)
+![image-2023032532532828175530507](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-2023032532532828175530507.png)
 
-![image-20230361742828175551801](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230361742828175551801.png)
+![image-20230361742828175551801](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230361742828175551801.png)
 
-![image-20230828175609507](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175609507.png)
+![image-20230828175609507](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175609507.png)
 
-![image-20230828175644746](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175644746.png)
+![image-20230828175644746](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175644746.png)
 
-![image-20230828175702989](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175702989.png)
+![image-20230828175702989](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175702989.png)
 
-![image-20230828175721315](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175721315.png)
+![image-20230828175721315](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175721315.png)
 
-![image-20230828175743058](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175743058.png)
+![image-20230828175743058](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175743058.png)
 
-![image-20230828175757195](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175757195.png)
+![image-20230828175757195](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/image-20230828175757195.png)
 
 
 
 ## 数据库结构
 
-![db_blog](https://cdn.staticaly.com/gh/xiwuqi/image-hosting@master/uPic/db_blog.png)
+![db_blog](https://cdn.chuqis.com/gh/xiwuqi/image-hosting@master/uPic/db_blog.png)
 
 ## 联系方式
 
